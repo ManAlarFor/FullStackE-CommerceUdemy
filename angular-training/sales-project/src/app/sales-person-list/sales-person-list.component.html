@@ -1,0 +1,27 @@
+<table>
+
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Sales Volume</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @for (person of salesPersonList; track $index) {
+            <tr>
+    
+                <th>{{person.firstName}}</th>
+                <th>{{person.lastName}}</th>
+                <th>{{person.email}}</th>
+                <th>{{person.salesVolume}}</th>
+
+            </tr>
+            
+        }
+    </tbody>
+
+</table>
