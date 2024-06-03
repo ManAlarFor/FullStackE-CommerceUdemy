@@ -1,0 +1,36 @@
+<table class="table table-hover">
+
+    <thead class="table-dark">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Sales Volume</th>
+            <th>Met Quota?</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @for (person of salesPersonList; track $index) {
+            
+            <tr>
+    
+                <th>{{person.firstName}}</th>
+                <th>{{person.lastName}}</th>
+                <th>{{person.email}}</th>
+                <th>{{person.salesVolume}}</th>
+                <th>
+                    @if (person.salesVolume>=6000) {
+                        <th>Yes</th>
+                    } @else {
+                        <th>No</th>
+                    }
+                </th>
+
+            </tr>
+            
+        }
+    </tbody>
+
+</table>
