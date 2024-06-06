@@ -17,20 +17,42 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getProductList(theCategoryId: number): Observable<Product[]> {
+  getProductListPaginate(Page:number,
+                        PageSize:number,
+                        CategoryId: number): Observable<GetResponseProducts> {
+
+    // need to build URL based on category id
+    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${CategoryId}`
+                    + `&page=${Page}&size=${PageSize}`;
+
+    return this.httpClient.get<GetResponseProducts>(searchUrl) ;
+  }
+
+  getProductList(CategoryId: number): Observable<Product[]> {
 
     // need to build URL based on category id 
-    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`;
+    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${CategoryId}`;
 
     return this.getProducts(searchUrl);
   }
 
-  searchProducts(theKeyword: string): Observable<Product[]> {
+  searchProducts(Keyword: string): Observable<Product[]> {
 
-    // need to build URL based on the keyword 
-    const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${theKeyword}`;
+    // need to build URL based on  keyword 
+    const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${Keyword}`;
 
     return this.getProducts(searchUrl);
+  }
+
+  searchProductsPaginate(Page:number,
+                        PageSize:number,
+                        keyword: string): Observable<GetResponseProducts> {
+
+    // need to build URL based on keyword
+    const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${keyword}`
+    + `&page=${Page}&size=${PageSize}`;
+
+    return this.httpClient.get<GetResponseProducts>(searchUrl) ;
   }
 
   private getProducts(searchUrl: string): Observable<Product[]> {
@@ -44,19 +66,27 @@ export class ProductService {
     );
   }
 
-  getProduct (theProductId: number): Observable<Product> {
+  getProduct (ProductId: number): Observable<Product> {
 
-    const productUrl = `${this.baseUrl}/${theProductId}` ;
+    const productUrl = `${this.baseUrl}/${ProductId}` ;
 
     return this.httpClient.get<Product>(productUrl) ;
 
   }
+
+  
 
 }
 
 interface GetResponseProducts {
   _embedded: {
     products: Product[];
+  }
+  page: {
+    size: number ;
+    totalElements: number ;
+    totalPages: number;
+    number:number;
   }
 }
 
